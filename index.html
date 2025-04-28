@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a237e; /* Dark blue background */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.3); /* Transparent glossy effect */
+            color: #fff;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.5);
+            outline: none;
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100vh; /* Fullscreen height */
+            border: none;
+            display: none; /* Initially hidden */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .info {
+            color: #fff;
+            font-size: 14px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Login popup styles */
+        .login-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .login-popup form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 300px;
+        }
+
+        .login-popup input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .login-popup button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .login-popup button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>KillSecrly Proxy V1</h1>
+        <input type="text" id="urlInput" placeholder="Enter a URL or search term..." />
+        <button id="submitBtn">Submit</button>
+        <div class="info" id="info"></div>
+    </div>
+    <iframe id="iframeResult" style="width: 100%; height: 100%;" frameborder="0" allow="gamepad *;"></iframe>
+
+    <!-- Login Popup -->
+    <div id="loginPopup" class="login-popup" style="display: none;">
+        <form id="loginForm">
+            <h3>Login</h3>
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        // Define the encoder function exactly as required
+        function encode(str) {
+            if (!str) return str;
+            return encodeURIComponent(
+                str
+                    .toString()
+                    .split('')
+                    .map((char, ind) =>
+                        ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char
+                    )
+                    .join('')
+            );
+        }
+
+        // Process the URL input and handle the embedding logic
+        function processUrl() {
+            let input = document.getElementById("urlInput").value.trim();
+            let iframeResult = document.getElementById("iframeResult");
+            let info = document.getElementById("info");
+            let container = document.getElementById("container");
+
+            // Check if the input is empty
+            if (input === "") {
+                info.textContent = "Please enter a URL or search term.";
+                return;
+            }
+
+            // Hide the entire container, including the input, button, and info text
+            container.style.display = "none";
+
+            // If the input starts with https://, encode it and embed the result
+            if (input.startsWith("https://")) {
+                let encodedUrl = encode(input);
+                iframeResult.style.display = "block";
+                iframeResult.src = `https://powerschool.ignorelist.com/a/${encodedUrl}`;
+            } else {
+                // Otherwise, treat it as a Google search
+                let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+                iframeResult.style.display = "none"; // Hide the iframe
+                window.location.href = searchUrl;
+            }
+        }
+
+        // Add event listener to the submit button
+        document.getElementById('submitBtn').addEventListener('click', processUrl);
+
+        // Show login popup when the page loads
+        window.onload = function() {
+            document.getElementById('loginPopup').style.display = 'flex';
+        };
+    </script>
+
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmLVJsp-mjGlT-EFgw-_3UkikeFIcviI4",
+            authDomain: "seculryprixt.firebaseapp.com",
+            projectId: "seculryprixt",
+            storageBucket: "seculryprixt.firebasestorage.app",
+            messagingSenderId: "629769837193",
+            appId: "1:629769837193:web:6602e0ea1700a7f3c88458",
+            measurementId: "G-QR337F73XX"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // Show login popup
+        function showLoginPopup() {
+            document.getElementById('loginPopup').style.display = 'flex';
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Logged in successfully, hide login popup
+                    document.getElementById('loginPopup').style.display = 'none';
+                    alert("Correct password! GOOD BOY!");
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>
