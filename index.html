@@ -128,16 +128,6 @@
     </div>
     <iframe id="iframeResult" src="https://powerschool.ignorelist.com/a/encoded" style="width: 100%; height: 100%;" frameborder="0" allow="gamepad *;"></iframe>
 
-    <!-- Login Popup -->
-    <div id="loginPopup" class="login-popup" style="display: none;">
-        <form id="loginForm">
-            <h3>Login</h3>
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="password" id="password" placeholder="Password" required />
-            <button type="submit">Login</button>
-        </form>
-    </div>
-
     <script>
         // Define the encoder function exactly as required
         function encode(str) {
@@ -185,11 +175,6 @@
         // Add event listener to the submit button
         document.getElementById('submitBtn').addEventListener('click', processUrl);
 
-        // Show login popup when the page loads
-        window.onload = function() {
-            document.getElementById('loginPopup').style.display = 'flex';
-        };
-    </script>
 
     <script type="module">
         // Import Firebase SDKs
@@ -213,17 +198,7 @@
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
 
-        // Show login popup
-        function showLoginPopup() {
-            document.getElementById('loginPopup').style.display = 'flex';
-        }
-
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
+        
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Logged in successfully, hide login popup
